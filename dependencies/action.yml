@@ -1,0 +1,42 @@
+name: 'Setup Dependencies'
+description: 'Prepare the build environment for Audacity'
+inputs:
+  force_gcc11:
+    description: "Force GCC 11 on Linux"
+    required: false
+    default: false
+runs:
+  using: "composite"
+  steps:
+  - name: Switch to GCC 11 on linux
+    shell: bash
+    if: ${{ inputs.force_gcc11 == 'true' && runner.os== 'Linux' }}
+    run: |
+        sudo apt install gcc-11 g++-11
+        sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-11 100 --slave /usr/bin/g++ g++ /usr/bin/g++-11 --slave /usr/bin/gcov gcov /usr/bin/gcov-11
+        sudo update-alternatives --set gcc /usr/bin/gcc-11
+  - name: Install required libraries
+    shell: bash
+    if: ${{ runner.os== 'Linux' }}
+    run: |
+        apt_packages=(
+            libasound2-dev
+            libgtk2.0-dev
+            libjack-jackd2-dev
+            gettext
+            python3-pip
+        )
+
+        sudo apt-get install -y --no-install-recommends "${apt_packages[@]}"
+        sudo apt-get remove -y ccache
+  - name: Generate requirements
+    shell: bash
+    run: |
+        echo "conan==1.43.2" > requirements.txt
+  - name: Setup Python
+    uses: actions/setup-python@v2.3.1
+    with:
+      cache: pip
+  - uses: BSFishy/pip-action@v1
+    with:
+      requirements: requirements.txt

@@ -1,0 +1,51 @@
+name: 'Build Audacity'
+description: 'Build Audacity'
+inputs:
+  generator:
+    description: 'CMake generator to use'
+    required: true
+  arch:
+    description: 'Host CPU architecture. Valid values are: x32, x64, arm64. Not all build platforms are fully supported'
+    required: false
+    default: x64
+  build_level:
+    description: 'Build level. Valid values are: alpha, beta, release'
+    required: false
+    default: alpha
+  configuration_types:
+    description: 'Build type. Valid values are: Debug, Release, RelWithDebInfo, MinSizeRel or any combination concatenated with semicolon'
+    required: false
+    default: RelWithDebInfo
+  build_type:
+    description: 'Build type. Valid values are: Debug, Release, RelWithDebInfo, MinSizeRel'
+    required: false
+    default: RelWithDebInfo
+  windows_certificate:
+    description: 'BASE64 of the Windows code signing certificate PFX file'
+    required: false
+  windows_certificate_password:
+    description: 'Password for the Windows code signing certificate PFX file'
+    required: false
+  apple_codesign_identity:
+    description: 'Apple code signing identity'
+    required: false
+  apple_notarization_user_name:
+    description: 'Apple notarization username'
+    required: false
+  apple_notarization_password:
+    description: 'Apple notarization password'
+    required: false
+  cmake_options:
+    description: 'Additional options for the CMake'
+    required: false
+  use_conan_cache:
+    description: 'Use GitHub cache for Conan dependencies'
+    default: true
+    required: false
+  image_compiler:
+    description: 'Path to image-compiler'
+    default: ""
+    required: false
+runs:
+  using: 'node16'
+  main: '../dist/configure/index.js'

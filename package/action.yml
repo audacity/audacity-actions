@@ -1,0 +1,24 @@
+name: 'Package Audacity'
+description: 'Package Audacity'
+inputs:
+  cmake_options:
+    description: 'Additional options for the CMake'
+    required: false
+  apple_codesign_identity:
+    description: 'Apple code signing identity'
+    required: false
+  apple_notarization_user_name:
+    description: 'Apple notarization username'
+    required: false
+  apple_notarization_password:
+    description: 'Apple notarization password'
+    required: false
+  archs:
+    description: 'On macOS - archtectures to include in the universal binary. One per line.'
+    required: false
+  postfix:
+    description: 'Postfix for Artifacts'
+    required: false
+runs:
+  using: 'node16'
+  main: '../dist/package/index.js'

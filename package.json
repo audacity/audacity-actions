@@ -1,0 +1,42 @@
+{
+   "name": "audacity-actions",
+   "version": "1.0.0",
+   "private": true,
+   "description": "GitHub Actions to build Audacity",
+   "scripts": {
+      "lint": "eslint .",
+      "_postinstall": "node ./node_modules/platform-dependent-modules/cli.js",
+      "postinstall": "npm run _postinstall",
+      "prepare": "ncc build configure/index.js -o dist/configure  --license licenses.txt && ncc build build/index.js -o dist/build  --license licenses.txt && ncc build package/index.js -o dist/package  --license licenses.txt",
+      "all": "npm run lint && npm run prepare"
+   },
+   "license": "BSD 3-Clause",
+   "dependencies": {
+      "@actions/artifact": "^0.5.2",
+      "@actions/cache": "^1.0.8",
+      "@actions/core": "^1.4.0",
+      "@actions/exec": "^1.1.0",
+      "@actions/github": "^4.0.0",
+      "@actions/glob": "^0.2.0",
+      "@actions/http-client": "^1.0.11",
+      "@actions/tool-cache": "^1.7.1",
+      "ds-store": "^0.1.6",
+      "extract-zip": "^2.0.1",
+      "fs-temp": "^1.2.1",
+      "md5": "2.3.0",
+      "simple-plist": "1.1.0"
+   },
+   "devDependencies": {
+      "@vercel/ncc": "^0.31.1",
+      "eslint": "^8.0.0",
+      "jest": "^27.2.5",
+      "platform-dependent-modules": "^0.0.14"
+   },
+   "config": {
+      "platformDependentModules": {
+         "darwin": [
+            "ds-store@0.1.6"
+         ]
+      }
+   }
+}

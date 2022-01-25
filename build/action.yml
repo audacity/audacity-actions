@@ -1,0 +1,12 @@
+name: 'Configure Audacity'
+description: 'Configure Audacity'
+inputs:
+  target:
+    description: 'Build target'
+    required: false
+  cmake_options:
+    description: 'Additional options for the CMake'
+    required: false
+runs:
+  using: 'node16'
+  main: '../dist/build/index.js'
