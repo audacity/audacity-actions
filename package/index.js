@@ -18,7 +18,7 @@ const lipo = require('../lib/lipo.js');
 
 const buildDir =  process.env['AUDACITY_BUILD_DIR'];
 const buildType = process.env['AUDACITY_BUILD_TYPE'];
-const buildLevel = process.env['AUDACITY_BUILD_LEVEL'];
+const buildLevel = BuildLevel.getBuildLevel();
 const arch = process.env['AUDACITY_ARCH'] || 'x64';
 
 const universalArchitectures = core.getMultilineInput("archs");

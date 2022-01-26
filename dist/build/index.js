@@ -12,13 +12,24 @@ module.exports = {
     Release : 2,
 
     getBuildLevel: () => {
-        const buildLevel = core.getInput('build_level');
+        const buildLevelInput = core.getInput('build_level');
+        const buildLevel = buildLevelInput.length > 0 ?
+            buildLevelInput :
+            process.env['AUDACITY_BUILD_LEVEL'];
 
         if (buildLevel === 'beta') {
             return 1;
         } else if (buildLevel === 'release') {
             return 2;
         } else {
+            const numericLevel = Number(buildLevel);
+
+            if (Number.isInteger(numericLevel) &&
+                numericLevel >= 0 &&
+                numericLevel <= 2) {
+                return numericLevel;
+            }
+
             return 0;
         }
     },
@@ -12548,7 +12559,7 @@ const helpers = __nccwpck_require__(5008);
 
 const buildDir =  process.env['AUDACITY_BUILD_DIR'];
 const buildType = process.env['AUDACITY_BUILD_TYPE'];
-const buildLevel = process.env['AUDACITY_BUILD_LEVEL'];
+const buildLevel = BuildLevel.getBuildLevel();
 const target = core.getInput('target')
 
 async function buildAudacity() {

@@ -8,7 +8,7 @@ const helpers = require("../lib/helpers.js");
 
 const buildDir =  process.env['AUDACITY_BUILD_DIR'];
 const buildType = process.env['AUDACITY_BUILD_TYPE'];
-const buildLevel = process.env['AUDACITY_BUILD_LEVEL'];
+const buildLevel = BuildLevel.getBuildLevel();
 const target = core.getInput('target')
 
 async function buildAudacity() {
