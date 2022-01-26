@@ -96,7 +96,7 @@ async function singApp(appLocation, identity) {
 }
 
 async function signDMG(dmgPath, appIdentifier, codesignIdentifier) {
-    if (!identity) {
+    if (!codesignIdentifier) {
         helpers.log("Skipping code signings, as there is no codesign identity provided");
         return ;
     }
