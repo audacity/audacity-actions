@@ -1,0 +1,19 @@
+name: 'Update Recipes'
+description: 'Update Recipes'
+inputs:
+  recipes_remote:
+    description: 'Remote to store recipes'
+    required: true
+  login:
+    description: 'Conan login for the recipes_remote'
+    required: true
+  password:
+    description: 'Conan password for the recipes_remote'
+    required: true
+  default_channel:
+    description: 'Channel to generate package for'
+    required: true
+runs:
+  using: 'node16'
+  main: '../dist/update_recipes/index.js'
+

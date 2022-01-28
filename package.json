@@ -7,7 +7,7 @@
       "lint": "eslint .",
       "_postinstall": "node ./node_modules/platform-dependent-modules/cli.js",
       "postinstall": "npm run _postinstall",
-      "prepare": "ncc build configure/index.js -o dist/configure  --license licenses.txt && ncc build build/index.js -o dist/build  --license licenses.txt && ncc build package/index.js -o dist/package  --license licenses.txt",
+      "prepare": "ncc build configure/index.js -o dist/configure  --license licenses.txt && ncc build build/index.js -o dist/build  --license licenses.txt && ncc build package/index.js -o dist/package  --license licenses.txt && ncc build update_recipes/index.js -o dist/update_recipes --license licenses.txt",
       "all": "npm run lint && npm run prepare"
    },
    "license": "BSD 3-Clause",
@@ -24,7 +24,8 @@
       "extract-zip": "^2.0.1",
       "fs-temp": "^1.2.1",
       "md5": "2.3.0",
-      "simple-plist": "1.1.0"
+      "simple-plist": "1.1.0",
+      "yaml": "1.10.2"
    },
    "devDependencies": {
       "@vercel/ncc": "^0.31.1",

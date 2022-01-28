@@ -58,7 +58,7 @@ Package Audacity and upload the resulting artifacts.
 
 Supported parameters:
 * `postfix`: a postfix to add to the artifact.
-* ` cmake_options`: additional options to pass to CMake.
+* `cmake_options`: additional options to pass to CMake.
 
 ### Windows
 
@@ -76,6 +76,15 @@ On macOS, action can be parametrized:
 * `apple_notarization_password`: Apple notarization password.
 * `archs`: list of architectures to package, in NodeJS format, one per line. If more than one architecture is provided, an universal binary will be created as well.
 
+##  audacity/audacity-actions/update_recipes@v1
+
+Update recipes in the specified remote using the current state of audacity/conan-recipes repository
+
+Supported parameters:
+* `recipes_remote`: "Recipes" only remote.
+* `login`: Conan login for the recipes_remote.
+* `password`: Conan password for the recipes_remote.
+* `default_channel`: Channel to generate package for.
 ## Building Actions
 
 Building a GitHub suitable package is only possible on macOS now.
