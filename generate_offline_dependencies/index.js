@@ -4,12 +4,15 @@ const fs = require('fs');
 const path = require('path');
 
 const helpers = require('../lib/helpers.js');
+const offlineDependencies = require('../lib/offlineDependencies.js')
 
 const generator = core.getInput('generator') || 'Unix Makefiles';
 const buildType = core.getInput('build_type') || 'Release';
 
 async function run() {
+    await offlineDependencies.prepareEnvironment();
     const tempPath = path.join(workspaceDir, '.offline', 'temp');
+    
     try {
         await helpers.execWithLog('cmake', [
             '-S', workspaceDir,
@@ -20,10 +23,7 @@ async function run() {
             '-D', `CMAKE_CONFIGURATION_TYPES=${buildType}`,
             ...core.getMultilineInput('cmake_options')
         ]);
-    } catch(error) {
-        helpers.error(error.message);
-        core.setFailed(error.message);
-    } finally {
+
         await fs.promises.rm(tempPath, { recursive: true });
 
         await helpers.execWithLog('conan', [
@@ -34,6 +34,11 @@ async function run() {
             '--packages',
             '--force',
         ]);
+
+        await offlineDependencies.upload();
+    } catch(error) {
+        helpers.error(error.message);
+        core.setFailed(error.message);
     }
 }
 

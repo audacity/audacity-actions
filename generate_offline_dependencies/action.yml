@@ -13,6 +13,4 @@ inputs:
     required: false
 runs:
   using: 'node16'
-  pre: '../dist/generate_offline_dependencies/pre/index.js'
   main: '../dist/generate_offline_dependencies/index.js'
-  post: '../dist/generate_offline_dependencies/post/index.js'
