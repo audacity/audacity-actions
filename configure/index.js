@@ -150,7 +150,7 @@ async function run() {
             await conan.uploadBinaries();
             await conan.cleanupConanBuilds();
         } catch(error) {
-            helper.error(error.message);
+            helpers.error(error.message);
             core.setFailed(error.message);
         } finally {
             if (saveCache) {
@@ -158,7 +158,7 @@ async function run() {
             }
         }
     } catch (error) {
-        helper.error(error.message);
+        helpers.error(error.message);
         core.setFailed(error.message);
     }
 }

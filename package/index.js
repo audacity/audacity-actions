@@ -1,6 +1,5 @@
 const core = require('@actions/core');
 const artifact = require('@actions/artifact');
-const exec = require('@actions/exec');
 
 const fs = require('fs');
 const path = require('path');
@@ -90,7 +89,7 @@ async function getBuildSuffix() {
         ('0' + currentDate.getDate()).slice(-2)
         ].join('')
 
-    const revision = (await exec.getExecOutput('git', ['show', '-s', '--format=%h'])).stdout.trim();
+    const revision = (await helpers.getExecOutput('git', ['show', '-s', '--format=%h'])).stdout.trim();
 
     return `-${BuildLevel.getBuildSuffix(buildLevel)}-${dateString}+${revision}`;
 }
