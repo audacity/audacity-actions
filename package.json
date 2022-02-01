@@ -7,7 +7,7 @@
       "lint": "eslint .",
       "_postinstall": "node ./node_modules/platform-dependent-modules/cli.js",
       "postinstall": "npm run _postinstall",
-      "prepare": "ncc build configure/index.js -o dist/configure  --license licenses.txt && ncc build build/index.js -o dist/build  --license licenses.txt && ncc build package/index.js -o dist/package  --license licenses.txt && ncc build update_recipes/index.js -o dist/update_recipes --license licenses.txt",
+      "prepare": "./package.sh",
       "all": "npm run lint && npm run prepare"
    },
    "license": "BSD 3-Clause",
