@@ -1,0 +1,18 @@
+name: 'Generate Offline Dependecies'
+description: 'Generate Offline Dependecies'
+inputs:
+  generator:
+    description: 'CMake generator to use'
+    required: true
+  build_type:
+    description: 'Build type. Valid values are: Debug, Release, RelWithDebInfo, MinSizeRel'
+    required: false
+    default: RelWithDebInfo
+  cmake_options:
+    description: 'Additional options for the CMake'
+    required: false
+runs:
+  using: 'node16'
+  pre: '../dist/generate_offline_dependencies/pre/index.js'
+  main: '../dist/generate_offline_dependencies/index.js'
+  post: '../dist/generate_offline_dependencies/post/index.js'
