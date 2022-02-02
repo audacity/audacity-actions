@@ -11,6 +11,9 @@ inputs:
   cmake_options:
     description: 'Additional options for the CMake'
     required: false
+  additional_python_packages:
+    description: "Additional Python packages to cache"
+    required: false
 runs:
   using: 'node16'
   main: '../dist/generate_offline_dependencies/index.js'
