@@ -40,6 +40,5 @@ runs:
   - uses: syphar/restore-pip-download-cache@v1
     if: steps.cache-virtualenv.outputs.cache-hit != 'true'
   - uses: BSFishy/pip-action@v1
-    if: steps.cache-virtualenv.outputs.cache-hit != 'true'
     with:
       requirements: requirements.txt
