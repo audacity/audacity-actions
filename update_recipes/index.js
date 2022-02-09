@@ -13,6 +13,7 @@ const recipesRemote = core.getInput('recipes_remote');
 const login = core.getInput('login');
 const password = core.getInput('password');
 const defaultChannel = core.getInput('default_channel');
+const skipUpload = core.getBooleanInput('skip_upload');
 
 function getChannel(name) {
     if (defaultChannel.length > 0) {
@@ -144,7 +145,9 @@ async function run() {
                 packageConfig.versions[version].folder
             );
 
-            await uploadRecipe(ref);
+            if (!skipUpload) {
+                await uploadRecipe(ref);
+            }
         }
     }
 }

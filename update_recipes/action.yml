@@ -13,6 +13,10 @@ inputs:
   default_channel:
     description: 'Channel to generate package for'
     required: true
+  skip_upload:
+    description: 'Skip recipe upload'
+    required: false
+    default: 'false'
 runs:
   using: 'node16'
   main: '../dist/update_recipes/index.js'
