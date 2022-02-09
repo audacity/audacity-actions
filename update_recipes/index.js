@@ -115,6 +115,18 @@ async function uploadRecipe(ref) {
     ]);
 }
 
+async function getConanProfileValue(name) {
+    return (await helpers.getExecOutput('conan', [
+        'profile', 'get', name, 'default'
+    ])).stdout.trim();
+}
+
+async function setConanProfileValue(name, value) {
+    await helpers.execWithLog('conan', [
+        'profile', 'update', `${name}=${value}`, 'default'
+    ]);
+}
+
 async function run() {
     await conan.setupConan();
 
@@ -128,14 +140,18 @@ async function run() {
     ]);
 
     if (process.platform === 'darwin') {
-        const conanHostArch = (await helpers.getExecOutput('conan', [
-            'profile', 'get', 'settings.arch', 'default'
-        ])).stdout.trim();
+        const conanHostArch = await getConanProfileValue('settings.arch');
 
         // macOS will ignore crosscompilation otherwise
         if (conanHostArch === 'armv8' && process.arch !== 'arm64') {
             core.exportVariable('CONAN_CMAKE_SYSTEM_NAME', 'Darwin');
             core.exportVariable('CONAN_CMAKE_SYSTEM_PROCESSOR', 'arm64');
+        }
+    } else if (process.platform === 'win32') {
+        if ((await getConanProfileValue('settings.compiler')) == 'msvc') {
+            await setConanProfileValue('settings.compiler.runtime', 'dynamic');
+            await setConanProfileValue('settings.compiler.runtime_type', 'Release');
+            await setConanProfileValue('settings.compiler.cppstd', '17');
         }
     }
 
