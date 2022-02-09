@@ -33,6 +33,10 @@ function getChannel(name) {
 }
 
 async function addRemote(name, address, index) {
+    if(address.length == 0) {
+        return;
+    }
+
     await helpers.execWithLog('conan', [
         'remote', 'add',
         name, address,
@@ -145,7 +149,7 @@ async function run() {
                 packageConfig.versions[version].folder
             );
 
-            if (!skipUpload) {
+            if (!skipUpload && recipesRemote.length > 0) {
                 await uploadRecipe(ref);
             }
         }
