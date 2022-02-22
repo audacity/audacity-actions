@@ -149,8 +149,15 @@ async function run() {
         }
     } else if (process.platform === 'win32') {
         if ((await getConanProfileValue('settings.compiler')) == 'msvc') {
+            // conan.io still contain packages that expect 'Visual Studio'
+            /*
             await setConanProfileValue('settings.compiler.runtime', 'dynamic');
             await setConanProfileValue('settings.compiler.runtime_type', 'Release');
+            await setConanProfileValue('settings.compiler.cppstd', '17');
+            */
+            await setConanProfileValue('settings.compiler', 'Visual Studio');
+            await setConanProfileValue('settings.compiler.version', '17');
+            await setConanProfileValue('settings.compiler.runtime', 'MD');
             await setConanProfileValue('settings.compiler.cppstd', '17');
         }
     }
