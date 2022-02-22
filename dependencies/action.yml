@@ -33,7 +33,7 @@ runs:
     shell: bash
     run: |
         echo "markupsafe==2.0.1" > requirements.txt
-        echo "conan==1.43.2" >> requirements.txt
+        echo "conan==1.45.0" >> requirements.txt
   - name: Setup Python
     uses: actions/setup-python@v2.3.1
   - uses: syphar/restore-virtualenv@v1
