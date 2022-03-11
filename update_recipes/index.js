@@ -103,7 +103,7 @@ async function createPackage(name, version, folder) {
         '--build=missing',
     ]);
 
-    await conan.cleanupConanBuilds();
+    await helpers.execWithLog('conan remove "*" --force');
 
     return ref;
 }
