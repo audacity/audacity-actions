@@ -25,6 +25,7 @@ runs:
             libjack-jackd2-dev
             gettext
             python3-pip
+            libgl1-mesa-dev
         )
 
         sudo apt-get install -y --no-install-recommends "${apt_packages[@]}"

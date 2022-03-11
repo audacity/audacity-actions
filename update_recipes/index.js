@@ -103,6 +103,8 @@ async function createPackage(name, version, folder) {
         '--build=missing',
     ]);
 
+    await conan.cleanupConanBuilds();
+
     return ref;
 }
 
