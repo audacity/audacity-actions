@@ -2,7 +2,6 @@ const core = require('@actions/core');
 
 const fs = require('fs');
 const path = require('path');
-const { config, arch } = require('process');
 
 const yaml = require('yaml');
 
@@ -52,6 +51,48 @@ async function addRemote(name, address, index) {
     ]);
 }
 
+
+async function setupCleanConanEnvironment() {
+    const conanDir = path.join(workspaceDir, '.conan');
+
+    if (fs.existsSync(conanDir)) {
+        await fs.promises.rm(conanDir, { recursive: true });
+    }
+    await conan.setupConan();
+
+    // Setup remotes
+    await addRemote('recipes', recipesRemote, 0);
+
+    // Setup default profile
+    await helpers.execWithLog('conan', [
+        'profile', 'new', 'default',
+        '--detect', '--force'
+    ]);
+
+    if (process.platform === 'darwin') {
+        const conanHostArch = await getConanProfileValue('settings.arch');
+
+        // macOS will ignore crosscompilation otherwise
+        if (conanHostArch === 'armv8' && process.arch !== 'arm64') {
+            core.exportVariable('CONAN_CMAKE_SYSTEM_NAME', 'Darwin');
+            core.exportVariable('CONAN_CMAKE_SYSTEM_PROCESSOR', 'arm64');
+        }
+    } else if (process.platform === 'win32') {
+        if ((await getConanProfileValue('settings.compiler')) == 'msvc') {
+            // conan.io still contain packages that expect 'Visual Studio'
+            /*
+            await setConanProfileValue('settings.compiler.runtime', 'dynamic');
+            await setConanProfileValue('settings.compiler.runtime_type', 'Release');
+            await setConanProfileValue('settings.compiler.cppstd', '17');
+            */
+            await setConanProfileValue('settings.compiler', 'Visual Studio');
+            await setConanProfileValue('settings.compiler.version', '17');
+            await setConanProfileValue('settings.compiler.runtime', 'MD');
+            await setConanProfileValue('settings.compiler.cppstd', '17');
+        }
+    }
+}
+
 async function isConanPackage(name) {
     if (name.indexOf('.') == 0) {
         return false;
@@ -94,6 +135,8 @@ async function collectConanPackages() {
 }
 
 async function createPackage(name, version, folder) {
+    await setupCleanConanEnvironment();
+
     const ref = `${name}/${version}@${getChannel(name)}`;
 
     await helpers.execWithLog('conan', [
@@ -130,40 +173,6 @@ async function setConanProfileValue(name, value) {
 }
 
 async function run() {
-    await conan.setupConan();
-
-    // Setup remotes
-    await addRemote('recipes', recipesRemote, 0);
-
-    // Setup default profile
-    await helpers.execWithLog('conan', [
-        'profile', 'new', 'default',
-        '--detect', '--force'
-    ]);
-
-    if (process.platform === 'darwin') {
-        const conanHostArch = await getConanProfileValue('settings.arch');
-
-        // macOS will ignore crosscompilation otherwise
-        if (conanHostArch === 'armv8' && process.arch !== 'arm64') {
-            core.exportVariable('CONAN_CMAKE_SYSTEM_NAME', 'Darwin');
-            core.exportVariable('CONAN_CMAKE_SYSTEM_PROCESSOR', 'arm64');
-        }
-    } else if (process.platform === 'win32') {
-        if ((await getConanProfileValue('settings.compiler')) == 'msvc') {
-            // conan.io still contain packages that expect 'Visual Studio'
-            /*
-            await setConanProfileValue('settings.compiler.runtime', 'dynamic');
-            await setConanProfileValue('settings.compiler.runtime_type', 'Release');
-            await setConanProfileValue('settings.compiler.cppstd', '17');
-            */
-            await setConanProfileValue('settings.compiler', 'Visual Studio');
-            await setConanProfileValue('settings.compiler.version', '17');
-            await setConanProfileValue('settings.compiler.runtime', 'MD');
-            await setConanProfileValue('settings.compiler.cppstd', '17');
-        }
-    }
-
     const packagesList = await collectConanPackages();
 
     for (const packageConfig of packagesList) {
