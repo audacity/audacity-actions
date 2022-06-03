@@ -11,15 +11,16 @@ const buildType = core.getInput('build_type') || 'Release';
 
 async function run() {
     await offlineDependencies.prepareEnvironment(core.getMultilineInput('additional_python_packages'));
-    
+
     const tempPath = path.join(workspaceDir, '.offline', 'temp');
-    
+
     try {
         await helpers.execWithLog('cmake', [
             '-S', workspaceDir,
             '-B', tempPath,
             '-G', generator,
             '-D', 'audacity_conan_allow_prebuilt_binaries=no',
+            '-D', 'audacity_conan_force_build_dependencies=yes',
             '-D', `CMAKE_BUILD_TYPE=${buildType}`,
             '-D', `CMAKE_CONFIGURATION_TYPES=${buildType}`,
             ...core.getMultilineInput('cmake_options')
