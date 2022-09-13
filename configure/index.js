@@ -66,7 +66,7 @@ function getXcodeConfiguration() {
             `-DAPPLE_CODESIGN_IDENTITY=${appleCodeSignIdentity}`
         ]
 
-        if (buildLevel == BuildLevel.Release) {
+        if (buildLevel != BuildLevel.Alpha) {
             const userName = core.getInput('apple_notarization_user_name');
             const password = core.getInput('apple_notarization_password');
 
@@ -120,9 +120,9 @@ function getConfigurationOptions() {
         cmakeOptions = [...cmakeOptions, ...getXcodeConfiguration()]
     }
 
-    if (buildLevel == BuildLevel.Release) {
-        cmakeOptions = [...cmakeOptions,  '-Daudacity_package_manual=yes' ]
-    }
+    //if (buildLevel == BuildLevel.Release) {
+    //    cmakeOptions = [...cmakeOptions,  '-Daudacity_package_manual=yes' ]
+    //}
 
     return [...cmakeOptions, ...core.getMultilineInput('cmake_options')]
 }
