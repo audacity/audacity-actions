@@ -26,6 +26,7 @@ runs:
             gettext
             python3-pip
             libgl1-mesa-dev
+            uuid-dev
         )
 
         sudo apt-get update
@@ -35,7 +36,7 @@ runs:
     shell: bash
     run: |
         echo "markupsafe==2.0.1" > requirements.txt
-        echo "conan==1.52.0" >> requirements.txt
+        echo "conan==1.53.0" >> requirements.txt
   - name: Setup Python
     uses: actions/setup-python@v2.3.1
     with:
