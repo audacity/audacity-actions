@@ -10,7 +10,7 @@ const generator = core.getInput('generator') || 'Unix Makefiles';
 const buildType = core.getInput('build_type') || 'Release';
 
 async function run() {
-    await offlineDependencies.prepareEnvironment(core.getMultilineInput('additional_python_packages'));
+    await offlineDependencies.prepareEnvironment();
 
     const tempPath = path.join(workspaceDir, '.offline', 'temp');
 
