@@ -10,7 +10,7 @@ const generator = core.getInput('generator') || 'Unix Makefiles';
 const buildType = core.getInput('build_type') || 'Release';
 
 async function run() {
-    await offlineDependencies.prepareEnvironment();
+    cachePath = await offlineDependencies.prepareEnvironment();
 
     const tempPath = path.join(workspaceDir, '.offline', 'temp');
 
@@ -21,6 +21,7 @@ async function run() {
             '-G', generator,
             '-D', 'audacity_conan_allow_prebuilt_binaries=no',
             '-D', 'audacity_conan_force_build_dependencies=yes',
+            '-D', `audacity_conan_download_cache=${cachePath}`,
             '-D', `CMAKE_BUILD_TYPE=${buildType}`,
             '-D', `CMAKE_CONFIGURATION_TYPES=${buildType}`,
             ...core.getMultilineInput('cmake_options')
