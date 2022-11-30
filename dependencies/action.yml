@@ -55,6 +55,7 @@ runs:
             libxcb-xfixes0-dev
             libxcb-xinerama0-dev
             libxcb-dri3-dev
+            xkb-data
         )
 
         sudo apt-get update
