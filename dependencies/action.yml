@@ -73,6 +73,8 @@ runs:
             libxcb-xinerama0-dev
             libxcb-dri3-dev
             libxcb-util0-dev
+            # xkeyboard-config
+            xkb-data
         )
 
         sudo apt-get update
