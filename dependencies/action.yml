@@ -84,16 +84,10 @@ runs:
         echo "markupsafe==2.0.1" > requirements.txt
         echo "conan==1.53.0" >> requirements.txt
   - name: Setup Python
-    uses: actions/setup-python@v2.3.1
+    uses: actions/setup-python@v4
     with:
       python-version: 3.10.8
-  - uses: syphar/restore-virtualenv@v1
-    id: cache-virtualenv
-    with:
-        requirement_files: requirements.txt
-        custom_cache_key_element: 3.10.8
-  - uses: syphar/restore-pip-download-cache@v1
-    if: steps.cache-virtualenv.outputs.cache-hit != 'true'
+      cache: 'pip'
   - uses: BSFishy/pip-action@v1
     with:
       requirements: requirements.txt
