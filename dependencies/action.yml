@@ -20,6 +20,10 @@ runs:
     if: ${{ runner.os== 'Linux' }}
     run: |
         apt_packages=(
+            # For self hosted runners
+            build-essential
+            cmake
+            # For Audacity
             libasound2-dev
             libgtk2.0-dev
             libjack-jackd2-dev
@@ -27,6 +31,30 @@ runs:
             python3-pip
             libgl1-mesa-dev
             uuid-dev
+            # For Qt building
+            libx11-xcb-dev
+            libfontenc-dev
+            libxaw7-dev
+            libxmu-dev
+            libxmuu-dev
+            libxpm-dev
+            libxres-dev
+            libxss-dev
+            libxtst-dev
+            libxv-dev
+            libxvmc-dev
+            libxxf86vm-dev
+            libxcb-render-util0-dev
+            libxcb-xkb-dev
+            libxcb-icccm4-dev
+            libxcb-image0-dev
+            libxcb-keysyms1-dev
+            libxcb-randr0-dev
+            libxcb-shape0-dev
+            libxcb-sync-dev
+            libxcb-xfixes0-dev
+            libxcb-xinerama0-dev
+            libxcb-dri3-dev
         )
 
         sudo apt-get update
@@ -40,12 +68,12 @@ runs:
   - name: Setup Python
     uses: actions/setup-python@v2.3.1
     with:
-      python-version: 3.10.2
+      python-version: 3.10.8
   - uses: syphar/restore-virtualenv@v1
     id: cache-virtualenv
     with:
         requirement_files: requirements.txt
-        custom_cache_key_element: 3.10.2
+        custom_cache_key_element: 3.10.8
   - uses: syphar/restore-pip-download-cache@v1
     if: steps.cache-virtualenv.outputs.cache-hit != 'true'
   - uses: BSFishy/pip-action@v1
