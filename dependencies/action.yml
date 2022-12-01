@@ -75,6 +75,8 @@ runs:
             libxcb-util0-dev
             # xkeyboard-config
             xkb-data
+            # It appears that CCI M4 package does not work correctly
+            m4
         )
 
         sudo apt-get update
