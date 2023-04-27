@@ -147,7 +147,14 @@ async function run() {
         try{
             await configureAudacity();
             await debug.processDependenciesDebugInformation(buildDir, buildType, true);
-            await conan.uploadBinaries();
+
+            try {
+                // If upload fails - do nt fail the build
+                await conan.uploadBinaries();
+            } catch(error) {
+                helpers.error(error.message);
+            }
+
             await conan.cleanupConanBuilds();
         } catch(error) {
             helpers.error(error.message);
