@@ -85,8 +85,7 @@ runs:
   - name: Generate requirements
     shell: bash
     run: |
-        echo "markupsafe==2.0.1" > requirements.txt
-        echo "conan==1.59.0" >> requirements.txt
+        echo "conan==2.0.7" > requirements.txt
   - name: Setup Python
     uses: actions/setup-python@v4
     with:

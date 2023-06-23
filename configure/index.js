@@ -146,7 +146,6 @@ async function run() {
 
         try{
             await configureAudacity();
-            await debug.processDependenciesDebugInformation(buildDir, buildType, true);
 
             try {
                 // If upload fails - do nt fail the build
