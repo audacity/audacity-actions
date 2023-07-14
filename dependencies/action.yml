@@ -73,6 +73,7 @@ runs:
             libxcb-xinerama0-dev
             libxcb-dri3-dev
             libxcb-util0-dev
+            libxcb-cursor-dev
             # xkeyboard-config
             xkb-data
             # It appears that CCI M4 package does not work correctly
