@@ -30,6 +30,7 @@ if (universalArchitectures.length == 0) {
 const codesignIdentifier = core.getInput('apple_codesign_identity');
 const userName = core.getInput('apple_notarization_user_name');
 const password = core.getInput('apple_notarization_password');
+const teamId = core.getInput('apple_notarization_team_id');
 
 async function packageAudacity(target) {
     const buildArgs = [
@@ -107,7 +108,7 @@ async function packageApp(app, suffix, packageDir) {
         await appleCodeSigning.signDMG(dmgPath, bundleIdentifier, codesignIdentifier);
 
         if (userName !== '' && password !== '' && buildLevel != BuildLevel.Alpha) {
-            await appleCodeSigning.notarizeDMG(dmgPath, bundleIdentifier, userName, password);
+            await appleCodeSigning.notarizeDMG(dmgPath, userName, password, teamId);
         }
     }
 }
