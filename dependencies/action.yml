@@ -87,7 +87,7 @@ runs:
   - name: Generate requirements
     shell: bash
     run: |
-        echo "conan==2.0.7" > requirements.txt
+        echo "conan==2.1.0" > requirements.txt
   - name: Setup Python
     uses: actions/setup-python@v5
     with:
