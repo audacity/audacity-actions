@@ -167,7 +167,7 @@ async function run() {
 
         const filesList = await fs.promises.readdir(packageDir);
 
-        const artifactClient = artifact.create();
+        const artifactClient = new artifact.DefaultArtifactClient();
 
         for(const file of filesList) {
             const ext = path.extname(file);
@@ -179,11 +179,12 @@ async function run() {
 
                 const filesList = await fileUtils.listDirectory(path.join(packageDir, name));
 
-                helpers.log(filesList);
+                helpers.log(`Starting upload files ${filesList} as ${artifactName}`)
 
                 await artifactClient.uploadArtifact(artifactName, filesList, packageDir);
             }
             else {
+                helpers.log(`Starting upload file ${file} as ${artifactName}`)
                 await artifactClient.uploadArtifact(artifactName, [ path.join(packageDir, file) ], packageDir);
             }
         }
