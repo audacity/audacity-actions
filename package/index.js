@@ -168,25 +168,30 @@ async function run() {
         const filesList = await fs.promises.readdir(packageDir);
 
         const artifactClient = new artifact.DefaultArtifactClient();
-
+        
+        const filesByArtifactName = {};
+        
         for(const file of filesList) {
             const ext = path.extname(file);
             const name = path.basename(file, ext);
             const artifactName = `${name}${postfix}`;
 
+            if (!filesByArtifactName[artifactName]) {
+                filesByArtifactName[artifactName] = [];
+            }
+
             if (ext === '.zip') {
                 await extractZip(path.join(packageDir, file), { dir: packageDir });
-
                 const filesList = await fileUtils.listDirectory(path.join(packageDir, name));
-
-                helpers.log(`Starting upload files ${filesList} as ${artifactName}`)
-
-                await artifactClient.uploadArtifact(artifactName, filesList, packageDir);
+                filesByArtifactName[artifactName] = filesByArtifactName[artifactName].concat(filesList);
+            } else {
+                filesByArtifactName[artifactName].push(path.join(packageDir, file));
             }
-            else {
-                helpers.log(`Starting upload file ${file} as ${artifactName}`)
-                await artifactClient.uploadArtifact(artifactName, [ path.join(packageDir, file) ], packageDir);
-            }
+        }
+        for (const artifactName in filesByArtifactName) {
+            const fileList = filesByArtifactName[artifactName];
+            helpers.log(`Starting upload of files ${fileList} as ${artifactName}`);
+            await artifactClient.uploadArtifact(artifactName, fileList, packageDir);
         }
     } catch (error) {
         helpers.error(error.message);
