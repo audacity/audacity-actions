@@ -20,11 +20,11 @@ inputs:
     description: 'Build type. Valid values are: Debug, Release, RelWithDebInfo, MinSizeRel'
     required: false
     default: RelWithDebInfo
-  windows_certificate:
-    description: 'BASE64 of the Windows code signing certificate PFX file'
+  windows_code_signing_access_key_id:
+    description: 'Access key ID for the Windows code signing service'
     required: false
-  windows_certificate_password:
-    description: 'Password for the Windows code signing certificate PFX file'
+  windows_code_signing_secret_access_key:
+    description: 'Secret access key for the Windows code signing service'
     required: false
   apple_codesign_identity:
     description: 'Apple code signing identity'

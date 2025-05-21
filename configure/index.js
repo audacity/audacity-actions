@@ -33,12 +33,12 @@ function getMSVCConfiguration() {
         throw new Error('Invalid host architecture');
     }
 
-    const windowsCertificate = core.getInput('windows_certificate');
-    const windowsCertificatePassword = core.getInput('windows_certificate_password');
+    const windowsCodeSigningAccessKeyId = core.getInput('windows_code_signing_access_key_id');
+    const windowsCodeSigningSecretAccessKey = core.getInput('windows_code_signing_secret_access_key');
 
-    if (windowsCertificate !== '' && windowsCertificatePassword !== '') {
-        core.exportVariable('WINDOWS_CERTIFICATE', windowsCertificate);
-        core.exportVariable('WINDOWS_CERTIFICATE_PASSWORD', windowsCertificatePassword);
+    if (windowsCodeSigningAccessKeyId !== '' && windowsCodeSigningSecretAccessKey !== '' ) {
+        core.exportVariable('WINDOWS_CODE_SIGNING_ACCESS_KEY_ID', windowsCodeSigningAccessKeyId);
+        core.exportVariable('WINDOWS_CODE_SIGNING_SECRET_ACCESS_KEY', windowsCodeSigningSecretAccessKey);
 
         cmakeOptions = [...cmakeOptions, '-Daudacity_perform_codesign=yes'];
     }
