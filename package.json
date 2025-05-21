@@ -13,7 +13,7 @@
    "license": "BSD 3-Clause",
    "dependencies": {
       "@actions/artifact": "^2.1.8",
-      "@actions/cache": "^3.2.4",
+      "@actions/cache": "^4.0.3",
       "@actions/core": "^1.10.1",
       "@actions/exec": "^1.1.1",
       "@actions/github": "^6.0.0",
@@ -24,7 +24,7 @@
       "extract-zip": "^2.0.1",
       "fs-temp": "^2.0.1",
       "md5": "2.3.0",
-      "simple-plist": "1.1.0",
+      "simple-plist": "^1.1.0",
       "yaml": "2.4.5"
    },
    "devDependencies": {
