@@ -87,4 +87,24 @@ Supported parameters:
 * `default_channel`: Channel to generate package for.
 ## Building Actions
 
-Building a GitHub suitable package is only possible on macOS now.
+Pre-requisites:
+* macOS on Intel or Apple Silicon with Rosetta 2
+* Node.js 20 running in i386 mode
+* NPM 9
+
+NOTE: The actions should be built in i386 mode to be able to run on Github-CI Runner.
+
+Setting up i386 Node.js on Apple Silicon can be done by running the following command in the terminal:
+
+```bash
+curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.37.2/install.sh | bash
+# From Rosetta Terminal (tick checkbox in Terminal right click menu -> Get Info -> Open using Rosetta)
+nvm install 20
+nvm use 20
+```
+
+To build the actions, run the following commands in the root of the repository:
+
+```bash
+npm install
+```
