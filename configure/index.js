@@ -29,6 +29,8 @@ function getMSVCConfiguration() {
         cmakeOptions = [...cmakeOptions, '-A', 'Win32',];
     } else if (hostArch == 'x64') {
         cmakeOptions = [...cmakeOptions, '-A', 'x64',];
+    } else if (hostArch == 'arm64') {
+        cmakeOptions = [...cmakeOptions, '-A', 'ARM64'];
     } else {
         throw new Error('Invalid host architecture');
     }
