@@ -26,7 +26,7 @@ runs:
     uses: actions/setup-python@v5
     if: ${{ runner.os != 'Linux' }}
     with:
-      python-version: '3.10'
+      python-version: '3.11'
       cache: 'pip'
   - uses: BSFishy/pip-action@v1
     with:
