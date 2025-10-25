@@ -108,15 +108,17 @@ fi
 # Need to bump python3 to 3.10 for Ubuntu 20.04
 source /etc/os-release
 if [[ "$ID" == "ubuntu" && "$VERSION_ID" == "20.04" ]]; then
-    sudo apt install -y --no-install-recommends software-properties-common
-    sudo add-apt-repository -y ppa:deadsnakes/ppa
-    sudo apt update
-    sudo apt install -y --no-install-recommends python3.10
-    sudo bash -c "curl -sS https://bootstrap.pypa.io/get-pip.py | python3.10"
-    sudo update-alternatives --install /usr/bin/python3 python3 /usr/bin/python3.10 1
-    sudo update-alternatives --set python3 /usr/bin/python3.10
-    sudo update-alternatives --install /usr/bin/python python /usr/bin/python3 1
-    sudo update-alternatives --set python /usr/bin/python3
+    sudo apt-get update -y
+    sudo apt-get install -y --no-install-recommends ca-certificates curl gnupg
+    sudo update-ca-certificates
+    curl -sSL https://github.com/astral-sh/python-build-standalone/releases/download/20251014/cpython-3.10.19+20251014-x86_64-unknown-linux-gnu-install_only.tar.gz \
+    | sudo tar -xz -C /usr/local
+    sudo ln -sf /usr/local/python/bin/python3.10 /usr/bin/python3
+    sudo ln -sf /usr/local/python/bin/python3.10 /usr/bin/python
+    export PATH="/usr/local/python/bin:$PATH"
+    echo "/usr/local/python/bin" >> "$GITHUB_PATH"
+    python3 -m ensurepip
+    python3 -m pip install --upgrade pip
 else
     sudo apt install -y --no-install-recommends python3 python3-pip
     sudo update-alternatives --install /usr/bin/python python /usr/bin/python3 1
