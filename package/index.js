@@ -168,9 +168,9 @@ async function run() {
         const filesList = await fs.promises.readdir(packageDir);
 
         const artifactClient = new artifact.DefaultArtifactClient();
-        
+
         const filesByArtifactName = {};
-        
+
         for(const file of filesList) {
             const ext = path.extname(file);
             const name = path.basename(file, ext);
