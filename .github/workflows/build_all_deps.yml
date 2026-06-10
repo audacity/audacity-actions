@@ -107,11 +107,11 @@ jobs:
         repository: crsib/audacity
         ref: 2223_apple_silicon
     - name: Setup dependencies
-      uses: audacity/audacity-actions/dependencies@v1
+      uses: audacity/audacity-actions/dependencies@v7
       with:
         force_gcc11: ${{ matrix.config.force_gcc11 }}
     - name: Configure
-      uses: audacity/audacity-actions/configure@v1
+      uses: audacity/audacity-actions/configure@v7
       with:
         generator: ${{ matrix.config.generator }}
         configuration_types: Debug;Release;RelWithDebInfo;MinSizeRel
