@@ -8,5 +8,5 @@ inputs:
     description: 'Additional options for the CMake'
     required: false
 runs:
-  using: 'node16'
+  using: 'node24'
   main: '../dist/build/index.js'

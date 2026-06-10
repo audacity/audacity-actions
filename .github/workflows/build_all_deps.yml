@@ -102,7 +102,7 @@ jobs:
           build_type: RelWithDebInfo
     steps:
     - name: Checkout Audacity
-      uses: actions/checkout@v2
+      uses: actions/checkout@v6
       with:
         repository: crsib/audacity
         ref: 2223_apple_silicon

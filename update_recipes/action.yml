@@ -18,6 +18,6 @@ inputs:
     required: false
     default: 'false'
 runs:
-  using: 'node16'
+  using: 'node24'
   main: '../dist/update_recipes/index.js'
 

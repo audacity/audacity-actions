@@ -15,5 +15,5 @@ inputs:
     description: "Additional Python packages to cache"
     required: false
 runs:
-  using: 'node16'
+  using: 'node24'
   main: '../dist/generate_offline_dependencies/index.js'

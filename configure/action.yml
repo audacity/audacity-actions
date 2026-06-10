@@ -47,5 +47,5 @@ inputs:
     default: ""
     required: false
 runs:
-  using: 'node16'
+  using: 'node24'
   main: '../dist/configure/index.js'
