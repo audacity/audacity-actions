@@ -1,0 +1,51 @@
+name: Rebuild dist
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+    paths:
+      - 'build/**'
+      - 'configure/**'
+      - 'package/**'
+      - 'update_recipes/**'
+      - 'generate_offline_dependencies/**'
+      - 'lib/**'
+      - 'helpers/**'
+      - 'package.json'
+      - 'package.sh'
+
+jobs:
+  rebuild:
+    runs-on: macos-latest
+    permissions:
+      contents: write
+    steps:
+    - uses: actions/checkout@v6
+    - name: Read Node version from action runtime
+      id: runtime
+      run: |
+        node_version=$(sed -n "s/.*using: 'node\([0-9]*\)'.*/\1/p" build/action.yml)
+        echo "Action runtime is node${node_version}"
+        echo "node-version=${node_version}" >> "$GITHUB_OUTPUT"
+    - uses: actions/setup-node@v6
+      with:
+        node-version: ${{ steps.runtime.outputs.node-version }}
+    - name: Build dist
+      run: npm ci
+    - name: Verify native module loads under the action runtime
+      run: |
+        lipo -archs dist/package/build/Release/volume.node
+        node -e "require('./dist/package/build/Release/volume.node'); console.log('volume.node loads under', process.version)"
+    - name: Commit dist
+      run: |
+        if [ -n "$(git status --porcelain dist)" ]; then
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add dist
+          git commit -m "Rebuild dist for node${{ steps.runtime.outputs.node-version }}"
+          git push
+        else
+          echo "dist is up to date"
+        fi
