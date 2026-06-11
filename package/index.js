@@ -3,7 +3,6 @@ const artifact = require('@actions/artifact');
 
 const fs = require('fs');
 const path = require('path');
-const extractZip = require('extract-zip');
 
 const plist = process.platform === 'darwin' ? require('simple-plist') : {};
 const dmgUtils = process.platform === 'darwin' ? require('../lib/dmgUtils.js') : {};
@@ -181,7 +180,9 @@ async function run() {
             }
 
             if (ext === '.zip') {
-                await extractZip(path.join(packageDir, file), { dir: packageDir });
+                // extract-zip dies silently on Node 24.16.0 (nodejs/node#63487),
+                // bsdtar handles zip archives on all runner platforms
+                await helpers.execWithLog('tar', ['-xf', path.join(packageDir, file), '-C', packageDir]);
                 const filesList = await fileUtils.listDirectory(path.join(packageDir, name));
                 filesByArtifactName[artifactName] = filesByArtifactName[artifactName].concat(filesList);
             } else {

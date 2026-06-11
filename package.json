@@ -21,7 +21,6 @@
       "@actions/http-client": "^2.2.1",
       "@actions/tool-cache": "^2.0.1",
       "ds-store": "^0.1.6",
-      "extract-zip": "^2.0.1",
       "fs-temp": "^2.0.1",
       "md5": "2.3.0",
       "simple-plist": "^1.1.0",
